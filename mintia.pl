@@ -49,7 +49,7 @@
 =item B<--version>
 
  Print version
- 
+
 =item B<-h, --help>
 
  Print help
@@ -129,7 +129,7 @@
 =item B<-i, --input> FILE
 
  Fasta(.gz) file
- 
+
 =item B<-s, --separator> CHAR [#]
 
  Which separator allows retreiving the fosmid name
@@ -152,7 +152,7 @@
 
  Run functional and taxonomic annotations
  -n, --nrDB and -u, --uniprotDB must be provided
- 
+
 =item B<-e, --evalue> FLOAT
 
  Maximum diamond e-value to report alignments [10e-8]
@@ -160,7 +160,7 @@
 =item B<-q, --queryCover> INT
 
  Minimum diamond query cover% to report an alignment [50]
- 
+
 =item B<-M, --Megan> FILE
 
  Run MEGAN - A license file must be provided
@@ -177,7 +177,7 @@
 =item B<-S, --SubmissionFiles>
 
  Build submission files
- 
+
 =item B<-D, --DiamondAgainstPrivateDB> FILE
 
  Run diamond against your own protein reference FASTA file
@@ -185,7 +185,7 @@
 =item B<-t, --threads> INT
 
  Number of threads for Blast [8]
- 
+
 =item B<-d, --dirOutputs> STR
 
  Path to the outputs directory
@@ -193,11 +193,11 @@
 =item B<-H, --htmlOutput> STR
 
  HTML output name [mintia_annotate.html]
- 
+
 =item B<-L, --logOutput> STR
 
  Log output file name [mintia_annotate.log]
- 
+
 =item B<-k, --keepTmpFiles>
 
  Keep temporary files
@@ -260,7 +260,7 @@ my $HTML_HEADER = '<!doctype html>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="###TITLE###">
     <meta name="author" content="Philippe Bardou">
-     
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Icons -->
@@ -333,7 +333,7 @@ my $HTML_HEADER = '<!doctype html>
 	  }
 	  hr{
 		margin: 0;
-		border: 0;  
+		border: 0;
 	  }
 	  .igv-popover-table {
 		margin: 5px;
@@ -407,20 +407,20 @@ my $HTML_FOOTER = '
     <!-- Datatable -->
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
-	
+
 	<!-- IGV JS-->
     <script src="https://igv.org/web/release/2.0.1/dist/igv.min.js"></script>
-	
+
 	<script type="text/javascript" language="javascript">
 		$(function() {
 			$(".pop").on("click", function() {
 				$("#megantitle").text($(this).find("img").attr("data-title"));
 				$("#meganimg").attr("src", $(this).find("img").attr("src"));
-				$("#meganview").modal("show");   
-			});	
+				$("#meganview").modal("show");
+			});
 			$(".btn").on("click", function() {
 				$(".igv-popover").css("display", "none");
-			});	
+			});
 		});
 	</script>
   </body>
@@ -429,7 +429,7 @@ my $HTML_FOOTER = '
 
 
 ########################################################################
-# Assemble functions 
+# Assemble functions
 ########################################################################
 =head2 function locate_regex
 
@@ -670,7 +670,7 @@ sub xx_bargraph {
 =cut
 sub check {
 	my $help = 0;
-	
+
 	GetOptions(
 		'h|help' => \$help
 	) || pod2usage(-verbose => 99,-sections => "NAME|CHECK SYNOPSIS|CHECK OPTIONS");
@@ -678,7 +678,7 @@ sub check {
 		-verbose => 99,
 		-sections => "NAME|CHECK SYNOPSIS|CHECK OPTIONS"
 	) if($help);
-	
+
 	print "\n##############################################\n";
 	print "        $MINTIA_VERSION check dependencies\n";
 	print "##############################################\n";
@@ -704,7 +704,7 @@ sub check {
 		$version =~ s/^.*\s/version:/;
 		print "...$version\n";
 	}
-	
+
 	$err = `which cross_match > /dev/null 2>&1`;
 	print "  => cross_match......";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -715,7 +715,7 @@ sub check {
 		$version =~ s/^cross_match version\s/version:/;
 		print "...$version\n";
 	}
-	
+
     # Step2 Annotate
     print "\n- Step 2 - annotate:\n";
 	$err = `which prokka > /dev/null 2>&1`;
@@ -728,7 +728,7 @@ sub check {
 		$version =~ s/^\w+\s+/version:/;
 		print "...$version\n";
 	}
-	
+
 	$err = `which diamond > /dev/null 2>&1`;
 	print "  => diamond..........";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -739,12 +739,12 @@ sub check {
 		chomp($version);
 		print "...$version\n";
 	}
-	
+
 	$err = `which xvfb-run > /dev/null 2>&1`;
 	print "  => xvfb-run.........";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
 	else   { print colored(['bold green'], "ok\n"); }
-	
+
 	$err = `which MEGAN > /dev/null 2>&1`;
 	print "  => MEGAN............";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -755,7 +755,7 @@ sub check {
 		chomp($version);
 		print "...$version\n";
 	}
-	
+
 	$err = `which rpsblast > /dev/null 2>&1`;
 	print "  => rpsblast.........";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -766,7 +766,7 @@ sub check {
 		chomp($version);
 		print "...$version\n";
 	}
-	
+
 	$err = `which samtools > /dev/null 2>&1`;
 	print "  => samtools.........";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -777,7 +777,7 @@ sub check {
 		chomp($version);
 		print "...$version\n";
 	}
-	
+
 	$err = `which tabix > /dev/null 2>&1`;
 	print "  => tabix............";
 	if($?) { print colored(['bold red'], 'unavailable in the PATH!', "\n"); }
@@ -792,7 +792,7 @@ sub check {
 }
 
 ########################################################################
-# Assemble main 
+# Assemble main
 ########################################################################
 =head2 procedure assemble
 
@@ -886,7 +886,7 @@ sub assemble {
 		-message => "$0 assemble: '-d, --dirOutputs' is required.\n",
 		-verbose => 99,
 		-sections => "NAME|ASSEMBLE SYNOPSIS|ASSEMBLE OPTIONS") if !defined($outputDir);
-			
+
 	if(! -e $outputDir) { mkdir $outputDir || die "Error: Unabled to create output dir $outputDir."; }
 	open(LOG, ">$outputDir/$outputLog")    || die "Error: Unabled to create $outputDir/$outputLog";
 
@@ -935,17 +935,18 @@ sub assemble {
 	print LOG "\n## Read filter using max depth ($coverage)\n";
 	my $maxLen = $coverage*$fosmidLen;
 	foreach my $k (sort keys(%h_sample)) {
-		my $zip = "cat ";
+		my $zip = "gunzip -d ";
 		my $filetype = `file -bsiL $h_sample{$k}{"R1_C"}`;
-	   	if($filetype =~ /application\/x\-gzip/) { $zip = "gunzip -c "; }
+	   	# if($filetype =~ /application\/x\-gzip/) { $zip = "gunzip -d "; print LOG "\n### R1 GZIP ###\n"}
 		open(READ1, "$zip $h_sample{$k}{'R1_C'} |") || die "Error: Unabled to open $h_sample{$k}{'R1_C'}.";
-
+  print LOG "\n## OK R1 Read filter using max depth ($coverage)\n";
 		if(exists($h_sample{$k}{"R2"})) {
-		  $zip = "cat ";
+		  $zip = "gunzip -d ";
 		  $filetype = `file -bsiL $h_sample{$k}{'R2_C'}`;
-		  if($filetype =~ /application\/x\-gzip/) { $zip = "gunzip -c "; }
+		  # if($filetype =~ /application\/x\-gzip/) { $zip = "gunzip -d "; }
 		  open(READ2, "$zip $h_sample{$k}{'R2_C'} |") || die "Error: Unabled to open $h_sample{$k}{'R2_C'}.";
 		}
+  print LOG "\n## OK R2 Read filter using max depth ($coverage)\n";
 
 		#outputDir
 		open(READ1FILTER, ">$outputDir/$k"."_filter_R1.fq") || die "Error: Unabled to create $outputDir/$k"."_filter_R1.fq";
@@ -955,6 +956,7 @@ sub assemble {
 		  $h_sample{$k}{"R2_F"} = "$outputDir/$k"."_filter_R2.fq";
 		}
 
+  print LOG "\n## OPEN FILES OK\n";
 		my $curLen          = 0;
 		my $totalLen        = 0;
 		my $nbFragment      = 0;
@@ -1535,7 +1537,7 @@ sub assemble {
 								All GFF</button></td>\n";
 	print HTML "<td style=\"text-align:center\"><button id=\"allclean\" file=\"allcleaned.fasta\" class=\"btn btn-sm btn-outline-secondary\">
 								All cleaned Fasta</button></td>\n";
-	print HTML '								
+	print HTML '
 						</tr>
 						</tbody>
 					</table>
@@ -1806,7 +1808,7 @@ sub assemble {
 
 
 ########################################################################
-# Annotate functions 
+# Annotate functions
 ########################################################################
 
 =head2 function split_fasta_by_id
@@ -1824,7 +1826,7 @@ sub assemble {
 =cut
 sub split_fasta_by_id {
   my ($fastaFile, $separator, $outputDir, $fastaName) = @_;
-  
+
   my @a_id;
   open(IN, "$fastaFile") || die "Error: Unabled to open $fastaFile\n";
   my $curId = "";
@@ -1865,7 +1867,7 @@ sub split_fasta_by_id {
 =cut
 sub split_xml_by_id {
 	my ($xmlFile, $separator, $outputDir, $xmlName) = @_;
-  
+
 	my @a_id;
 	open(IN, "$xmlFile") || die "Error: Unabled to open $xmlFile\n";
 	my $header = "";
@@ -1890,7 +1892,7 @@ sub split_xml_by_id {
 		$footer .= $line;
 	}
  	close IN;
- 	
+
  	my $curId  = "";
  	foreach my $hit (@a_hits) {
 		if($hit =~ /<Iteration_query-def>(.*)<\/Iteration_query-def>/) {
@@ -1904,7 +1906,7 @@ sub split_xml_by_id {
 					close OUT;
 				}
 				$curId = $id;
-				
+
 				if(! -e "$outputDir/$curId") { mkdir "$outputDir/$curId" || die "Error: Unabled to create output dir $outputDir/$curId."; }
 				open(OUT, ">$outputDir/$curId/$xmlName") || die "Error: Unabled to create $outputDir/$curId/$xmlName\n";
 				print OUT $header;
@@ -1919,7 +1921,7 @@ sub split_xml_by_id {
 }
 
 ########################################################################
-# Annotate main 
+# Annotate main
 ########################################################################
 =head2 function annotate
 
@@ -2000,7 +2002,7 @@ sub annotate {
 			-message => "$0 annotate: $dbUniP is not readable.\n"
 			-verbose => 99,
 			-sections => "NAME|ANNOTATE SYNOPSIS|ANNOTATE OPTIONS") if !(-r $dbUniP);
-	}	
+	}
 	if($funAndTaxo) {
 		pod2usage(
 			-message => "$0 annotate: -n, --nrDB is required by -F.\n",
@@ -2043,10 +2045,10 @@ sub annotate {
 		-message => "$0 annotate: '-s, --separator' must be a CHAR ($separator).\n",
 		-verbose => 99,
 		-sections => "NAME|ANNOTATE SYNOPSIS|ANNOTATE OPTIONS") if(length($separator)!=1);
-	
+
 	if(! -e $outputDir) { mkdir $outputDir || die "Error: Unabled to create output dir $outputDir."; }
 	open(LOG, ">$outputDir/$outputLog")    || die "Error: Unabled to create $outputDir/$outputLog";
-	
+
 	####
 	## Check input fasta file and create output folder tree structure (one dir by fosmid/fastaId)
 	####
@@ -2078,7 +2080,7 @@ sub annotate {
 	my $prokkaGFF = "$outputDir/prokka.gff";
 	my $prokkaTFA = "$outputDir/prokka.fasta";
 	my $prokkaPRO = "$outputDir/prokka-prot.fasta";
-	
+
 	# %h_orf = (
 	#    fastaID => {
 	#          ORF      => 'Number of prokka ORF',
@@ -2088,13 +2090,13 @@ sub annotate {
 	#             "Start"  => 'Start coord on fasta',
 	#             "Length" => 'length of the orf',
 	#             "Strand" => 'Strand coord on fasta',
-	
+
 	#             "uniNbHSP"  => 'Number of HSP from diamond VS Uniprot',                    |
 	#             "uniMaxCov" => 'Max HSPcov from diamond VS Uniprot: qcovhsp',              |
 	#             "uniCov"    => 'HSP Coverage'},    |                                       | => From Uniprot
 	#             "uniIden"   => 'HSP % identity'},  | => For the best HSP (max of cov*Iden) |
 	#             "uniSpecies"=> 'HSP Species'}      |                                       |
-	
+
 	#             "nrNbHSP"  => 'Number of HSP from diamond VS NR',                          |
 	#             "nrMaxCov" => 'Max HSPcov from diamond VS Uniprot: qcovhsp',               |
 	#             "nrCov"    => 'HSP Coverage'},    |                                        | => From NR
@@ -2105,7 +2107,7 @@ sub annotate {
 	#    }
 	# )
 	my %h_orf = ();
-	
+
 	print LOG "## Run prokka\n";
 	`prokka $inputSeq --outDir $outputDir --cpu $threads --prefix prokka_tmp_ --locustag "##TEMPLATE##" --force 2> $outputDir/prokka_tmp_.stderr`;
 	my $orfcmp      = 1;
@@ -2160,7 +2162,7 @@ sub annotate {
 	$h_orf{$name}{"uniORF"} = 0;
 	$h_orf{$name}{"nrORF"}  = 0;
 	print LOG " ==> Create $prokkaGFF..........done\n";
-	
+
 	open(NUC, ">$prokkaTFA") || die "Error: Unabled to create $prokkaTFA";
 	open(PROKKAFFN, "$outputDir/prokka_tmp_.ffn") || die "Error: Unabled to open $outputDir/prokka_tmp_.ffn";
 	while(my $line=<PROKKAFFN>) {
@@ -2184,14 +2186,14 @@ sub annotate {
 	close(PROKKAFAA);
 	close(PRO);
 	print LOG " ==> Create $prokkaPRO...done\n";
-	
+
 	if($ncbi) {
 		print LOG " ==> Create submission file(s) by fosmid.......";
 		open(PROKKAGBK, "$outputDir/prokka_tmp_.gbk") || die "Error: Unabled to open $outputDir/prokka_tmp_.gbk";
 		while(my $line=<PROKKAGBK>) {
 			if($line =~ /^LOCUS/) {
 				my @a_line = split(/\s+/, $line);
-				
+
 				my $id = "";
 				if($separator ne "" && index($a_line[1], $separator)!=-1) {
 					$id = substr($a_line[1], 0, index($a_line[1], $separator));
@@ -2199,7 +2201,7 @@ sub annotate {
 				else {
 					$id = $a_line[1];
 				}
-								
+
 				my $outfile = "$outputDir/$id/prokka.gbk";
 				open(NCBI, ">>$outfile")  || die "Error: Unabled to create $outfile";
 				print NCBI $line;
@@ -2217,10 +2219,10 @@ sub annotate {
 		close(PROKKAGBK);
 		print LOG "done\n";
 	}
-		
+
 	####
 	## Contigs and ORFs diamond blastx against nr and uniprot to identity missed ORFs by prokka
-	## Rq: diamond param -k 100000 --max-hsps... 
+	## Rq: diamond param -k 100000 --max-hsps...
 	####
 	if($funAndTaxo) {
 		print LOG "## Run functional and taxonomic annotation\n";
@@ -2229,37 +2231,37 @@ sub annotate {
 
 		print LOG "done\n - Run diamond-blastx $inputSeq against Uniprot...";
 		`diamond blastx --db $dbUniP --query $inputSeq --threads $threads --outfmt 6 qseqid sseqid pident nident length mismatch gaps gapopen qstart qend sstart send evalue bitscore stitle qcovhsp -k 1000 -e $diamond_evalue --out $outputDir/contigs-uniprot.diamond.tsv 2> $outputDir/contigs-uniprot.diamond_tmp_.stderr`;
-		
+
 		print LOG "done\n - Run diamond-blastx $prokkaTFA against NR........";
 		`diamond blastx --db $dbNR --query $prokkaTFA --threads $threads --outfmt 6 qseqid sseqid pident nident length mismatch gaps gapopen qstart qend sstart send evalue bitscore stitle qcovhsp -k 1000 --query-cover $diamond_queryCover -e $diamond_evalue --out $outputDir/prokka-nr.diamond.tsv 2> $outputDir/prokka-nr.diamond_tmp_.stderr`;
-		
+
 		print LOG "done\n - Run diamond-blastx $prokkaTFA against Uniprot...";
 		`diamond blastx --db $dbUniP --query $prokkaTFA --threads $threads --outfmt 6 qseqid sseqid pident nident length mismatch gaps gapopen qstart qend sstart send evalue bitscore stitle qcovhsp -k 1000 --query-cover $diamond_queryCover -e $diamond_evalue --out $outputDir/prokka-uniprot.diamond.tsv 2> $outputDir/prokka-uniprot.diamond_tmp_.stderr`;
 		print LOG "done\n";
 	}
-	
+
 	# Split fasta by fosmid need for HTML report (and Megan)
 	my @a_fosmidFromprokkaTfa   = split_fasta_by_id($prokkaTFA, $separator, $outputDir, "prokka.fasta");
-	
+
 	####
 	## MEGAN must be run by fosmid and takes as input:
 	## - fosmid orf fasta file (extract from prokka.fasta)
 	## - fosmid diamond-blastx of ORFs against nr (extract from prokka-nr.diamond.xml)
-	## MEGAN produces a .rma file and a jpg tree file 
+	## MEGAN produces a .rma file and a jpg tree file
 	####
 	if($megan) {
 		print LOG "## Run MEGAN\n";
 		print LOG " - Run diamond-blastx $prokkaTFA against NR........";
 		`diamond blastx --db $dbNR --query $prokkaTFA --threads $threads --outfmt 5 -k 1000 --query-cover $diamond_queryCover -e $diamond_evalue --out $outputDir/prokka-nr.diamond.xml 2> $outputDir/prokka-nr.diamond_tmp_.stderr`;
 		print LOG "done\n";
-				
+
 		# Split fasta and xml by fosmid to run MEGAN by fosmid
 		print LOG " - Prepare inputs files: split FASTA and XML files by fosmid...";
 		my @a_fosmidFromDiamondXml  = split_xml_by_id("$outputDir/prokka-nr.diamond.xml", $separator, $outputDir, "diamond-prokkaVSnr_tmp_.xml");
-			
+
 		### Valider que les tableaux sont identiques
 		print LOG "done\n";
-		
+
 		for(my $i=0;$i<=$#a_fosmid;$i++) {
 			# Build config file
 			my $path = "$outputDir/$a_fosmid[$i]";
@@ -2283,12 +2285,12 @@ sub annotate {
 			`(xvfb-run MEGAN -g -E -L $megan -c $path/megan_tmp_.cfg) 2> $path/megan_tmp_.log`;
 			if(-e "$path/megan.png") {}
 			else {`(xvfb-run MEGAN -g -E -L $megan -c $path/megan_tmp_.cfg) 2> $path/megan_tmp_.log`;}
-			
+
 			print LOG "done\n";
 		}
 	}
-	
-	
+
+
 	# %h_nbOrfByCog = (
 	#    fosmidID => {
 	#          cogcategory => {
@@ -2300,12 +2302,12 @@ sub annotate {
 	if($cog) {
 		print LOG "## Run rpsblast (COGs)...";
 		`(rpsblast -query $prokkaPRO -db $cog -num_threads $threads -evalue $cog_cMaxEvalue -out $outputDir/cogs_$cog_cMaxEvalue.rpsblast) 2> $outputDir/cogs_$cog_cMaxEvalue.rpsblast_tmp_.stderr`;
-		
+
 		my $curFosId = "";
 		my $curOrfId = "";
 		my $firstHit = 1;
 		open(COGOUT, "$outputDir/cogs_$cog_cMaxEvalue.rpsblast") || die "Error: Unabled to open $outputDir/cogs_$cog_cMaxEvalue.rpsblast\n";
-		while(my $line=<COGOUT>) {	
+		while(my $line=<COGOUT>) {
 			if($line =~ /^Query=\s+(.*)#(ORF\d+)/) {
 				$curFosId = $1;
 				$curOrfId = $2;
@@ -2350,7 +2352,7 @@ sub annotate {
 
 		print LOG "done\n";
 	}
-	
+
 	if($diamond) {
 		print LOG "## Run diamond against your own fasta file...";
 		`diamond makedb --in $diamond --db $outputDir/private_tmp_ 2> $outputDir/private.diamond_makedb_tmp_.stderr`;
@@ -2363,25 +2365,25 @@ sub annotate {
 			#print LOG "$error\n";
 		}
 		else {
-			print LOG "done\n";	
+			print LOG "done\n";
 		}
 	}
 
-	
+
 	#####
 	## HTML Report
 	#####
 	print LOG "## Create HTML report";
-	
+
 	# Create fa and fai files
 	copy($inputSeq, "$outputDir/fosmids.fa") or die "Unabled to copy $inputSeq input $outputDir: $!";
 	`samtools faidx $outputDir/fosmids.fa`;
-	
+
 	# bgzip tabix for prokka.gff
 	`bgzip -fc $prokkaGFF > $prokkaGFF.gz; tabix -p gff $prokkaGFF.gz`;
-	
-	my $dianrRTrack;     #Diamond VS NR 
-	my $diauniRTrack;    #Diamond VS Uniprot 
+
+	my $dianrRTrack;     #Diamond VS NR
+	my $diauniRTrack;    #Diamond VS Uniprot
 	my $dianrorfRTrack;  #Diamond ORF VS NR
 	my $diauniorfRTrack; #Diamond ORF VS Uniprot
 	if($funAndTaxo) {
@@ -2423,7 +2425,7 @@ sub annotate {
 		close(DIANR);
 		close(SAM);
 		`samtools view -bS $outputDir/contigs-nr.diamond_tmp_.sam | samtools sort - -o $outputDir/contigs-nr.diamond.bam ; samtools index $outputDir/contigs-nr.diamond.bam`;
-		
+
 		# Tracks : Diamond VS Uniprot (alignment and annotation tracks)
 		# Alignmnet track  => Build sort.bam and bai from Diamond fosmid against uniprot tsv
 		# Annotation track => for the "resume" track build $diauniRTrack
@@ -2452,7 +2454,7 @@ sub annotate {
 		close(DIAUNI);
 		close(SAM);
 		`samtools view -bS $outputDir/contigs-uniprot.diamond_tmp_.sam | samtools sort - -o $outputDir/contigs-uniprot.diamond.bam ; samtools index $outputDir/contigs-uniprot.diamond.bam`;
-			
+
 		# Tracks : Diamond ORF VS NR (alignment and annotation tracks)
 		# Alignmnet track  => Build sort.bam and bai from Diamond ORF against NR tsv
 		# Annotation track => for the "resume" track build $dianrorfRTrack
@@ -2493,7 +2495,7 @@ sub annotate {
 			$link =~s/\|$//;
 			$dianrorfRTrack .= "," if($cmp);
 			$dianrorfRTrack .= "{chr:\"$qseqid\",Name:\"<a href=\\\"https://www.ncbi.nlm.nih.gov/protein/$link\\\" target=\\\"_blank\\\">$sseqid</a>\",start:$shiftstart,end:$shiftend,evalue:$evalue,color:\"rgba(193,64,64,0.2)\",description:\"$stitle\"}";
-			
+
 			# Save orf hsp, cov... info
 			$h_orf{$qseqid}{$orfname}{"nrNbHSP"}++;
 			$h_orf{$qseqid}{"nrORF"}++ if($h_orf{$qseqid}{$orfname}{"nrNbHSP"} == 1);
@@ -2508,9 +2510,9 @@ sub annotate {
 			$cmp++;
 		}
 		close(DIANR);
-		close(SAM);	
+		close(SAM);
 		`samtools view -bS $outputDir/prokka-nr.diamond_tmp_.sam | samtools sort - -o $outputDir/prokka-nr.diamond.bam ; samtools index $outputDir/prokka-nr.diamond.bam`;
-		
+
 		# Tracks : Diamond ORF VS Uniprot (alignment and annotation tracks)
 		# Alignmnet track  => Build sort.bam and bai from Diamond ORF against uniprot tsv
 		# Annotation track => for the "resume" track build $diauniorfRTrack
@@ -2549,7 +2551,7 @@ sub annotate {
 			my @a_link = split(/\|/,$sseqid);
 			$diauniorfRTrack .= "," if($cmp);
 			$diauniorfRTrack .= "{chr:\"$qseqid\",Name:\"<a href=\\\"https://www.ncbi.nlm.nih.gov/protein/$a_link[2]\\\" target=\\\"_blank\\\">$sseqid</a>\",start:$shiftstart,end:$shiftend,evalue:$evalue,color:\"rgba(224,136,42,0.2)\",description:\"$stitle\"}";
-			
+
 			# Save orf hsp, cov... info
 			$h_orf{$qseqid}{$orfname}{"uniNbHSP"}++;
 			$h_orf{$qseqid}{"uniORF"}++ if($h_orf{$qseqid}{$orfname}{"uniNbHSP"} == 1);
@@ -2564,14 +2566,14 @@ sub annotate {
 			$cmp++;
 		}
 		close(DIAUNI);
-		close(SAM);	
+		close(SAM);
 		`samtools view -bS $outputDir/prokka-uniprot.diamond_tmp_.sam | samtools sort - -o $outputDir/prokka-uniprot.diamond.bam ; samtools index $outputDir/prokka-uniprot.diamond.bam`;
 	}
-	
+
 	open (HTML, ">$outputDir/$outputHtml") || die "Error: Unabled to create $outputDir/$outputHtml\n";
 	my $html = $HTML_HEADER;
 	$html =~ s/###TITLE###/Mintia annotation report/g;
-		
+
 	my $menu = '
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
@@ -2614,10 +2616,10 @@ sub annotate {
 					</li>
             </ul>
           </div>';
-	
+
 	$html =~ s/###MENU###/$menu/;
 	print HTML $html;
-	
+
 	print HTML '
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 border-bottom">
 			<h1 class="h4">Inputs and parameters</h1>
@@ -2658,7 +2660,7 @@ sub annotate {
 			<h1 class="h4">Annotation</h1>
 			<span class="anchor" id="annotation"></span>
 		</div>
-		
+
 		<h5 class="mt-4">Result table</h5>
 		<span class="anchor" id="annotation-table"></span>
 		<table class="table table-striped table-bordered mb-0" style="width:100%;">
@@ -2705,11 +2707,11 @@ sub annotate {
 	if($diamond) {
 		print HTML '<td nowrap style="text-align:center"><a href="./private.diamond.tsv" target="_blank" class="btn btn-sm btn-outline-secondary">TSV</a></td>';
 	}
-	print HTML ' 
+	print HTML '
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<h5 class="mt-4">Result table by fosmid</h5>
 		<span class="anchor" id="annotation-tablefos"></span>
 		<table class="table table-striped table-bordered mb-0" style="width:100%;">
@@ -2743,7 +2745,7 @@ sub annotate {
 			</thead>
 			<tbody>
 	';
-	
+
 	foreach my $i (@a_fosmid) {
 		my $nbseq = `grep -c ">" $outputDir/$i/fosmid.fasta`;
 		chomp $nbseq;
@@ -2752,10 +2754,10 @@ sub annotate {
 		my ($id,$len,$gc,$A,$T,$C,$G, $o) = ("", 0, 0, 0, 0, 0, 0, 0);
 		while(my $line=<FOSMID>) {
 			chomp $line;
-			if($line =~/^>(\S+)/) { 
+			if($line =~/^>(\S+)/) {
 				if($id ne "") {
 					$gc = sprintf("%.2f", ($G+$C)/$len*100);
-					$o  = $len-($A+$T+$C+$G);					
+					$o  = $len-($A+$T+$C+$G);
 					print HTML "<td class='valn'>$len</td> <td class='valn'>$gc</td>"
 							.	"<td class='valn'>$A</td>  <td class='valn'>$T</td>"
 							.	"<td class='valn'>$G</td>  <td class='valn'>$C</td>"
@@ -2873,7 +2875,7 @@ sub annotate {
 			</tbody>
 		</table>
 	';
-	
+
 	# Modal megan
 	print HTML '
 		<div class="modal fade" id="meganview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -2892,11 +2894,11 @@ sub annotate {
 					<div class="modal-body">
 						<img src="" id="meganimg" style="width: 100%;" >
 					</div>
-				</div>          
+				</div>
 			</div>
 		</div>
-	';	
-	
+	';
+
 	# Modal Uniprot annotated ORFs
 	foreach my $id (keys (%h_orf)) {
 		print HTML '
@@ -2913,7 +2915,7 @@ sub annotate {
 						</button>
 					</div>
 					<div class="modal-body">
-				
+
 						<table class="table table-striped table-bordered mb-0" style="width:100%;">
 							<thead>
 								<tr>
@@ -2929,14 +2931,14 @@ sub annotate {
 								</tr>
 							</thead>
 							<tbody>';
-			
+
 		for(my $c=1;$c<$h_orf{$id}{"ORF"};$c++) {
 			next if($h_orf{$id}{"ORF".$c}{"nrMaxCov"} == 0);
 			print HTML '
 								<tr>
 									<td >ORF'.$c.'</td>
 									<td style="text-align:right">'.$h_orf{$id}{"ORF".$c}{"nrNbHSP"}.'</td>
-									<td> 
+									<td>
 										<div class="progress" style="margin-top:3px">
 											<div class="progress-bar" role="progressbar" style="width: '.
 												$h_orf{$id}{"ORF".$c}{"nrMaxCov"}.'%;background-color:rgba(193,64,64,0.8) !important;" aria-valuenow="'.
@@ -2968,7 +2970,7 @@ sub annotate {
 		</div>
 		';
 	}
-	
+
 	# Modal NR annotated ORFs
 	foreach my $id (keys (%h_orf)) {
 		print HTML '
@@ -2985,7 +2987,7 @@ sub annotate {
 						</button>
 					</div>
 					<div class="modal-body">
-				
+
 						<table class="table table-striped table-bordered mb-0" style="width:100%;">
 							<thead>
 								<tr>
@@ -3001,14 +3003,14 @@ sub annotate {
 								</tr>
 							</thead>
 							<tbody>';
-			
+
 		for(my $c=1;$c<$h_orf{$id}{"ORF"};$c++) {
 			next if($h_orf{$id}{"ORF".$c}{"uniMaxCov"} == 0);
 			print HTML '
 								<tr>
 									<td >ORF'.$c.'</td>
 									<td style="text-align:right">'.$h_orf{$id}{"ORF".$c}{"uniNbHSP"}.'</td>
-									<td> 
+									<td>
 										<div class="progress" style="margin-top:3px">
 											<div class="progress-bar" role="progressbar" style="width: '.
 												$h_orf{$id}{"ORF".$c}{"uniMaxCov"}.'%;background-color:rgba(224,136,42,0.8) !important;" aria-valuenow="'.
@@ -3040,7 +3042,7 @@ sub annotate {
 		</div>
 		';
 	}
-	
+
 	# Modal COGs annotated
 	foreach my $id (keys (%h_nbOrfByCog)) {
 		print HTML '
@@ -3058,7 +3060,7 @@ sub annotate {
 					</div>
 					<div class="modal-body">
 						<div id="cog-pie-'.$id.'" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-						<script type="text/javascript" language="javascript">						
+						<script type="text/javascript" language="javascript">
 							var pieColors = (function () {
 								var colors = [],
 									base = Highcharts.getOptions().colors[0],
@@ -3085,12 +3087,12 @@ sub annotate {
 								tooltip: {
 									headerFormat: "",
 									pointFormat: "<b>{point.y}</b> ORF(s)</b>"
-									
+
 								},
 								subtitle: {
 									text: "Produced by '.$MINTIA_VERSION.'"
 								},
-								credits: false,	
+								credits: false,
 								exporting: {
 									buttons: {
 										contextButton: {
@@ -3132,8 +3134,8 @@ sub annotate {
 									]
 								}]
 							});
-						</script>						
-								
+						</script>
+
 						<table class="table table-sm table-striped table-bordered mb-0" style="width:100%;font-size:small">
 							<thead>
 								<tr>
@@ -3163,12 +3165,12 @@ sub annotate {
 		</div>
 		';
 	}
-	
+
 	print HTML '<h5 class="mt-4">Fosmid browser</h5>
 		<span class="anchor" id="annotation-browser"></span>
 		<div id="igv-div" class="mb-3 pt-2 pb-2" style="border:1px solid lightgray; width:100%"></div>
 	';
-	
+
 	print HTML '
 	<script type="text/javascript">
 		document.addEventListener("DOMContentLoaded", function () {
@@ -3317,8 +3319,8 @@ sub annotate {
 	print HTML '
 				]}};
 			}
-			
-			const igvDiv = document.getElementById("igv-div");			
+
+			const igvDiv = document.getElementById("igv-div");
 			igv.createBrowser(igvDiv, options).then(function (browser) {
                     browser.on(\'trackclick\', function (track, popoverData) {
 
@@ -3328,7 +3330,7 @@ sub annotate {
                         if (!popoverData || !popoverData.length) {
                             return false;
                         }
-						
+
 						firstheader = 0;
                         popoverData.forEach(function (nameValue) {
 							if (nameValue.name) {
@@ -3376,13 +3378,13 @@ sub annotate {
 										value = url;
 									}
 								}
-								
+
 								let header = "";
 								if((name == "ID" || name == "Name") && firstheader==0) {
 										header = " style=\"background-color:#eee;border-bottom:1px solid darkgrey\"";
 										if(name == "ID") { firstheader = 1; }
 								}
-								
+
 								markup += "<tr" + header + "><td class=\"igv-popover-item\">" + name + "</td>"
 										+ "<td class=\"igv-popover-value\">" + value + "</td>"
 										+ "</td></tr>";
@@ -3402,11 +3404,11 @@ sub annotate {
 		});
 	</script>
 	';
-	
+
 	print HTML $HTML_FOOTER;
 	close(HTML);
 	print LOG ".......done\n";
-		
+
 	if(!$keep) {
 		print LOG "## Remove temporary files";
 		unlink glob "$outputDir/*_tmp_*";
@@ -3418,13 +3420,13 @@ sub annotate {
 
 
 ############################################################################
-# MAIN 
+# MAIN
 ############################################################################
 MAIN:
 {
 	my @ARGV_SAVE = @ARGV;
 	my $argKO = 0;
-	
+
 	# No arg
 	if($#ARGV == -1) { $argKO = 1; }
 	# No command
@@ -3448,7 +3450,7 @@ MAIN:
 		-verbose => 99,
 		-sections => "NAME|COMMANDS|DESCRIPTION|MAIN OPTIONS|VERSION|AUTHORS|COPYRIGHT"
 	) if($argKO);
-	
+
 	## Check dependencies
 	if (defined($ARGV[0])  &&  $ARGV[0] eq "check") {
 		shift @ARGV_SAVE;
